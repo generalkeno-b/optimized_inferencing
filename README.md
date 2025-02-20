@@ -9,9 +9,9 @@ mkdir models && cd models && git clone --depth 1 --filter=blob:none --sparse htt
 
 3. Run the application:
    
-python inference.py
+      python inference.py
 
 5. Access the app:
    
-http://localhost:8000/
+      http://localhost:8000/
 
