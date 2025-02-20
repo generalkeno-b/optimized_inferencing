@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Llama Model API Frontend</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    label, textarea, input, button { display: block; margin-bottom: 10px; }
+    textarea { width: 100%; max-width: 600px; }
+    pre { background: #f4f4f4; padding: 10px; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>Llama Model API Frontend</h1>
+  <form id="prompt-form">
+    <label for="prompt">Enter Prompt:</label>
+    <textarea id="prompt" name="prompt" rows="4" placeholder="Type your prompt here..."></textarea>
+
+    <label for="max_tokens">Max Tokens:</label>
+    <input type="number" id="max_tokens" name="max_tokens" value="32" min="1">
+
+    <button type="submit">Generate Text</button>
+  </form>
+
+  <h2>Output:</h2>
+  <pre id="output"></pre>
+
+  <script>
+    document.getElementById('prompt-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const prompt = document.getElementById('prompt').value;
+      const max_tokens = parseInt(document.getElementById('max_tokens').value, 10);
+      
+      try {
+        const response = await fetch('/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ prompt, max_tokens })
+        });
+        
+        if (!response.ok) {
+          const error = await response.json();
+          document.getElementById('output').textContent = 'Error: ' + error.detail;
+          return;
+        }
+        
+        const data = await response.json();
+        document.getElementById('output').textContent = data.output;
+      } catch (err) {
+        document.getElementById('output').textContent = 'Request failed: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
