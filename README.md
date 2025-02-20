@@ -1,4 +1,4 @@
-# Llama Model API
+# Optimzized Vicuna Inferencing
 
 ## How to Run
 
